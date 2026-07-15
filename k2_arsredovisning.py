@@ -19,10 +19,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-# ─────────────────────────────────────────────────────────────────────────
+# ────────────────────────────────────────────────────────────────────────
 # BAS-kontomappning. Centraliserad här (i Python, inte upprepad i XML)
 # så att den är enkel att underhålla och testa.
-# ─────────────────────────────────────────────────────────────────────────
+# ────────────────────────────────────────────────────────────────────────
 RR_ACCOUNTS = {
     'netto':       [(3000, 3799)],
     'aktiverat':   [(3850, 3899)],
@@ -208,9 +208,9 @@ class K2Arsredovisning(models.Model):
     fast_styrelseledamot_id = fields.Many2one('k2.styrelseledamot', string='Undertecknande styrelseledamot',
                                                domain="[('arsredovisning_id', '=', id)]")
 
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
     # Onchange: sätt smarta defaults när företag ändras / vid skapande
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
 
     @api.model
     def default_get(self, fields_list):
@@ -236,9 +236,9 @@ class K2Arsredovisning(models.Model):
             if rec.date_from and rec.date_to and rec.date_from > rec.date_to:
                 raise ValidationError(_('Startdatum kan inte vara efter slutdatum.'))
 
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
     # Beräknade summeringsfält
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
 
     @api.depends('rr_netto', 'rr_aktiverat', 'rr_ovr_intakt', 'rr_ravaror', 'rr_externa',
                  'rr_personal', 'rr_avskriv', 'rr_ovr_kostnad', 'rr_ranteinkt', 'rr_rantekost',
@@ -291,9 +291,9 @@ class K2Arsredovisning(models.Model):
             rec.nt_solid_n = round(rec.be_ek_summa / rec.bt_summa * 100, 1) if rec.bt_summa else 0.0
             rec.nt_solid_f = round(rec.bp_ek_summa / rec.bp_summa * 100, 1) if rec.bp_summa else 0.0
 
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
     # Datahämtning från bokföringen
-    # ─────────────────────────────────────────────────────────────────
+    # ───────────────────────────────────────────────────────────────────
 
     def _get_balance(self, date_from, date_to, account_ranges, sign=1):
         """Summerar debet-kredit för konton inom BAS-intervall under perioden."""
@@ -396,7 +396,7 @@ class K2Arsredovisning(models.Model):
             text = _("Medelantalet anställda under året var %d, varav %d kvinnor.") % (antal, kvinnor) if kvinnor \
                 else _("Medelantalet anställda under året var %d.") % antal
             text += _(
-                "\n\u26a0 OBS: siffran är antal aktiva anställda i registret just nu, inte ett "
+                "\n⚠️ OBS: siffran är antal aktiva anställda i registret just nu, inte ett "
                 "historiskt beräknat medelantal. Kontrollera och justera vid behov."
             )
             self.not_personal = text
@@ -449,4 +449,3 @@ class K2Styrelseledamot(models.Model):
         ('suppleant', 'Styrelsesuppleant'),
         ('vd', 'Verkställande direktör'),
     ], string='Befattning', required=True, default='ledamot')
-
