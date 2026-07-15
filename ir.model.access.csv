@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_k2_arsredovisning_manager,k2.arsredovisning manager,model_k2_arsredovisning,account.group_account_manager,1,1,1,1
+access_k2_arsredovisning_user,k2.arsredovisning user,model_k2_arsredovisning,account.group_account_user,1,1,1,0
+access_k2_styrelseledamot_manager,k2.styrelseledamot manager,model_k2_styrelseledamot,account.group_account_manager,1,1,1,1
+access_k2_styrelseledamot_user,k2.styrelseledamot user,model_k2_styrelseledamot,account.group_account_user,1,1,1,0
+access_k2_duplicate_wizard,k2.duplicate.wizard,model_k2_duplicate_wizard,account.group_account_user,1,1,1,1
