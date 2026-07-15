@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_k2_template">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <t t-call="web.internal_layout">
+        <div class="page">
+          <style>
+            body { font-family: Arial, sans-serif; font-size: 9pt; color: #1a1a1a; }
+            h2 { font-size: 12pt; font-weight: bold; color: #002855;
+                 border-bottom: 2px solid #002855; padding-bottom: 3px; margin: 22px 0 10px 0; }
+            h3 { font-size: 10pt; font-weight: bold; color: #002855; margin: 12px 0 4px 0; }
+            p  { margin: 3px 0 7px 0; line-height: 1.55; }
+            .cover { text-align:center; padding: 90px 40px 60px; }
+            .co-name { font-size: 22pt; font-weight: bold; color: #002855; }
+            .co-title { font-size: 16pt; color: #002855; margin-top: 28px; }
+            .co-badge { display: inline-block; margin-top: 20px; padding: 5px 16px;
+                        background: #002855; color: #fff; font-size: 9pt; border-radius: 3px; }
+            table.fin { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 8.5pt; }
+            table.fin th { background: #002855; color: #fff; padding: 5px 7px; }
+            table.fin th.l { text-align: left; }
+            table.fin td { padding: 2px 7px; border-bottom: 1px solid #ebebeb; text-align: right; }
+            table.fin td.lbl { text-align: left; }
+            table.fin tr.tot td { background: #e0e8f5; font-weight: bold;
+                                  border-top: 2px solid #002855; border-bottom: 2px solid #002855; }
+            table.fin tr.sub td { background: #f3f6fb; font-weight: bold; }
+            .nb { border-left: 3px solid #002855; padding: 6px 10px; background: #f8fafd; margin: 6px 0 14px; }
+            .pb { page-break-after: always; }
+            .sl { border-top: 1px solid #333; margin-top: 34px; padding-top: 4px; font-size: 8pt; }
+          </style>
+
+          <div class="cover">
+            <div class="co-name"><t t-esc="o.company_id.name"/></div>
+            <p>Org.nr <t t-esc="o.orgnr or '—'"/></p>
+            <div class="co-title">ÅRSREDOVISNING</div>
+            <p>för räkenskapsåret <t t-esc="o.date_from"/> – <t t-esc="o.date_to"/></p>
+            <span class="co-badge">K2 · BFNAR 2016:10</span>
+          </div>
+          <div class="pb"/>
+
+          <h2>Förvaltningsberättelse</h2>
+          <h3>Verksamhetens art och inriktning</h3>
+          <p><t t-esc="o.verksamhet or '[Ej ifyllt]'"/></p>
+          <h3>Väsentliga händelser under räkenskapsåret</h3>
+          <p><t t-esc="o.handelser or '[Ej ifyllt]'"/></p>
+          <h3>Förväntad framtida utveckling</h3>
+          <p><t t-esc="o.framtid or '[Ej ifyllt]'"/></p>
+          <t t-if="o.miljo">
+            <h3>Miljö och personal</h3>
+            <p><t t-esc="o.miljo"/></p>
+          </t>
+          <h3>Förslag till disposition av årets resultat</h3>
+          <p><t t-esc="o.disposition or '[Ej ifyllt]'"/></p>
+          <div class="pb"/>
+
+          <h2>Resultaträkning</h2>
+          <table class="fin">
+            <thead><tr><th class="l">Post</th><th><t t-esc="o.date_to.year"/></th><th>Föreg. år</th></tr></thead>
+            <tbody>
+              <tr><td class="lbl">Nettoomsättning</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_netto)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_netto)"/></td></tr>
+              <tr><td class="lbl">Övriga externa kostnader</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_externa)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_externa)"/></td></tr>
+              <tr><td class="lbl">Personalkostnader</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_personal)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_personal)"/></td></tr>
+              <tr><td class="lbl">Av- och nedskrivningar</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_avskriv)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_avskriv)"/></td></tr>
+              <tr class="sub"><td class="lbl">Rörelseresultat</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_rorelseresultat)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_rorelseresultat)"/></td></tr>
+              <tr class="sub"><td class="lbl">Resultat efter finansiella poster</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_resultat_fin)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_resultat_fin)"/></td></tr>
+              <tr class="tot"><td class="lbl">ÅRETS RESULTAT</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_arets_resultat)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.rr_p_arets_resultat)"/></td></tr>
+            </tbody>
+          </table>
+          <div class="pb"/>
+
+          <h2>Balansräkning</h2>
+          <h3>TILLGÅNGAR</h3>
+          <table class="fin">
+            <thead><tr><th class="l">Post</th><th><t t-esc="o.date_to"/></th><th>Föreg. år</th></tr></thead>
+            <tbody>
+              <tr class="sub"><td class="lbl">Summa anläggningstillgångar</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bt_anl_summa)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bp_anl_summa)"/></td></tr>
+              <tr class="sub"><td class="lbl">Summa omsättningstillgångar</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bt_oms_summa)"/></td>
+                  <td>—</td></tr>
+              <tr class="tot"><td class="lbl">SUMMA TILLGÅNGAR</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bt_summa)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bp_summa)"/></td></tr>
+            </tbody>
+          </table>
+          <h3>EGET KAPITAL OCH SKULDER</h3>
+          <table class="fin">
+            <tbody>
+              <tr class="sub"><td class="lbl">Summa eget kapital</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.be_ek_summa)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bp_ek_summa)"/></td></tr>
+              <tr class="sub"><td class="lbl">Summa kortfristiga skulder</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.be_kort_summa)"/></td>
+                  <td>—</td></tr>
+              <tr class="tot"><td class="lbl">SUMMA EK OCH SKULDER</td>
+                  <td><t t-esc="'{:,.0f}'.format(o.be_summa)"/></td>
+                  <td><t t-esc="'{:,.0f}'.format(o.bp_ek_skuld_summa)"/></td></tr>
+            </tbody>
+          </table>
+          <div class="pb"/>
+
+          <h2>Noter</h2>
+          <h3>Not 1 – Redovisningsprinciper</h3>
+          <div class="nb"><p><t t-esc="o.not_principer or 'Upprättad enligt ÅRL och BFNAR 2016:10 (K2).'"/></p></div>
+          <h3>Not 3 – Anställda och löner</h3>
+          <div class="nb"><p><t t-esc="o.not_personal or '[Ej ifyllt]'"/></p></div>
+          <h3>Not 8 – Andelar i koncernföretag (dotterbolag)</h3>
+          <div class="nb"><p><t t-esc="o.not_dotterbolag or 'Bolaget äger inga andelar i dotterföretag.'"/></p></div>
+          <h3>Not – Nyckeltalsdefinitioner</h3>
+          <div class="nb"><p><t t-esc="o.not_nyckeltal"/></p></div>
+          <div class="pb"/>
+
+          <h2>Underskrifter</h2>
+          <t t-foreach="o.sign_styrelse_ids" t-as="led">
+            <div class="sl"><t t-esc="led.name"/>, <t t-esc="dict(led._fields['befattning'].selection).get(led.befattning)"/></div>
+          </t>
+
+          <h2>Fastställelseintyg</h2>
+          <p>
+            Undertecknad styrelseledamot i <strong><t t-esc="o.company_id.name"/></strong> intygar
+            dels att denna kopia av årsredovisningen stämmer överens med originalet, dels att
+            resultaträkningen och balansräkningen har fastställts på årsstämma den
+            <strong><t t-esc="o.fast_stamma_datum or '[ej angivet]'"/></strong>.
+            Årsstämman beslutade att godkänna styrelsens förslag till hur vinsten ska fördelas.
+          </p>
+          <p><t t-esc="o.fast_ort"/> den <t t-esc="o.fast_datum or '[ej angivet]'"/></p>
+          <div class="sl"><t t-esc="o.fast_styrelseledamot_id.name or '[Namnförtydligande]'"/></div>
+        </div>
+      </t>
+    </t>
+  </t>
+</template>
+</odoo>

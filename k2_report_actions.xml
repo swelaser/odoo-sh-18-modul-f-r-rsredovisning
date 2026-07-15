@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="action_report_k2_pdf" model="ir.actions.report">
+    <field name="name">Årsredovisning K2 (PDF)</field>
+    <field name="model">k2.arsredovisning</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">arsredovisning_k2_sh.report_k2_template</field>
+    <field name="report_file">arsredovisning_k2_sh.report_k2_template</field>
+    <field name="print_report_name">'Arsredovisning_K2_%s_%s' % (object.company_id.name, object.date_to.year)</field>
+    <field name="binding_model_id" ref="model_k2_arsredovisning"/>
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="base.paperformat_euro"/>
+  </record>
+
+</odoo>
