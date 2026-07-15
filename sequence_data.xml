@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Reserverad för framtida sekvensbehov (t.ex. löpnummer för fastställda
+       årsredovisningar). Lämnas tom för nu eftersom 'name' sätts manuellt
+       eller via default_get. -->
+</odoo>
