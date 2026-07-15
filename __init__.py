@@ -1,2 +1,3 @@
 # -*- coding: utf-8 -*-
-from . import k2_duplicate_wizard
+from . import k2_arsredovisning
+from . import k2_docx_export
