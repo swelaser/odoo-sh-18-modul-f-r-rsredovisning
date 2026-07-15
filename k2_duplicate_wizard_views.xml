@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_k2_duplicate_wizard_form" model="ir.ui.view">
+    <field name="name">k2.duplicate.wizard.form</field>
+    <field name="model">k2.duplicate.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Duplicera till nästa år">
+        <field name="arsredovisning_id" invisible="1"/>
+        <p>
+          Du är på väg att skapa en ny K2-årsredovisning för räkenskapsår
+          <field name="next_year" readonly="1" class="fw-bold"/>.
+        </p>
+        <p>
+          Förvaltningsberättelse, noter, styrelse och revisor kopieras automatiskt.
+          Resultat- och balansräkning nollställs och behöver fyllas i på nytt
+          (t.ex. via knappen "Hämta BR/RR/Personal från bokföringen").
+        </p>
+        <footer>
+          <button name="action_confirm" type="object" string="Skapa" class="btn-primary"/>
+          <button string="Avbryt" class="btn-secondary" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_k2_duplicate_wizard" model="ir.actions.act_window">
+    <field name="name">Duplicera till nästa år</field>
+    <field name="res_model">k2.duplicate.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="context">{'default_arsredovisning_id': active_id}</field>
+  </record>
+
+</odoo>
