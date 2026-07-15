@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FORMULÄRVY
+       ═══════════════════════════════════════════════════════════════ -->
+  <record id="view_k2_arsredovisning_form" model="ir.ui.view">
+    <field name="name">k2.arsredovisning.form</field>
+    <field name="model">k2.arsredovisning</field>
+    <field name="arch" type="xml">
+      <form string="K2-årsredovisning">
+        <header>
+          <button name="action_fetch_from_accounting" type="object"
+                  string="🔄 Hämta BR/RR/Personal från bokföringen"
+                  class="btn-primary"
+                  confirm="Detta skriver över Resultaträkning och Balansräkning på denna K2-rapport med aktuella saldon från bokföringen. Fortsätta?"/>
+          <button name="%(action_k2_duplicate_wizard)d" type="action"
+                  string="📋 Duplicera till nästa år"/>
+          <button name="action_export_docx" type="object"
+                  string="⬇️ Exportera som Word (.docx)"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,klar,fastställd"/>
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <label for="name"/>
+            <h1><field name="name"/></h1>
+          </div>
+
+          <group col="4">
+            <field name="company_id" options="{'no_create': True}"/>
+            <field name="orgnr"/>
+            <field name="date_from"/>
+            <field name="date_to"/>
+            <field name="date_from_prev" readonly="1"/>
+            <field name="date_to_prev" readonly="1"/>
+          </group>
+
+          <notebook>
+            <page string="📋 Förvaltningsberättelse">
+              <group>
+                <field name="verksamhet" placeholder="Beskriv verksamhetens art och inriktning..."/>
+                <field name="handelser" placeholder="Väsentliga händelser under räkenskapsåret..."/>
+                <field name="framtid" placeholder="Förväntad framtida utveckling..."/>
+                <field name="miljo" placeholder="Miljö- och personalinformation (frivilligt)..."/>
+                <field name="disposition" placeholder="Förslag till disposition av årets resultat..."/>
+                <field name="disposition_utdelning" string="Föreslagen utdelning"/>
+              </group>
+              <group string="Flerårsöversikt (beräknas automatiskt)">
+                <group string="Innevarande år">
+                  <field name="nt_netto_n"/>
+                  <field name="nt_res_n"/>
+                  <field name="nt_balans_n"/>
+                  <field name="nt_solid_n"/>
+                </group>
+                <group string="Föregående år">
+                  <field name="nt_netto_f"/>
+                  <field name="nt_res_f"/>
+                  <field name="nt_balans_f"/>
+                  <field name="nt_solid_f"/>
+                </group>
+              </group>
+            </page>
+
+            <page string="📊 Resultaträkning">
+              <group col="4">
+                <group string="Innevarande räkenskapsår">
+                  <field name="rr_netto"/>
+                  <field name="rr_aktiverat"/>
+                  <field name="rr_ovr_intakt"/>
+                  <field name="rr_ravaror"/>
+                  <field name="rr_externa"/>
+                  <field name="rr_personal"/>
+                  <field name="rr_avskriv"/>
+                  <field name="rr_ovr_kostnad"/>
+                  <field name="rr_rorelseresultat" readonly="1" class="fw-bold"/>
+                  <field name="rr_ranteinkt"/>
+                  <field name="rr_rantekost"/>
+                  <field name="rr_resultat_fin" readonly="1" class="fw-bold"/>
+                  <field name="rr_skatt"/>
+                  <field name="rr_arets_resultat" readonly="1" class="fw-bold"/>
+                </group>
+                <group string="Föregående räkenskapsår">
+                  <field name="rr_p_netto"/>
+                  <field name="rr_p_ravaror"/>
+                  <field name="rr_p_externa"/>
+                  <field name="rr_p_personal"/>
+                  <field name="rr_p_avskriv"/>
+                  <field name="rr_p_rorelseresultat" readonly="1" class="fw-bold"/>
+                  <field name="rr_p_resultat_fin" readonly="1" class="fw-bold"/>
+                  <field name="rr_p_skatt"/>
+                  <field name="rr_p_arets_resultat" readonly="1" class="fw-bold"/>
+                </group>
+              </group>
+            </page>
+
+            <page string="⚖️ Balansräkning">
+              <group string="TILLGÅNGAR">
+                <group string="Anläggningstillgångar – innevar.">
+                  <field name="bt_imm"/>
+                  <field name="bt_byggnader"/>
+                  <field name="bt_maskiner"/>
+                  <field name="bt_fin_anl"/>
+                  <field name="bt_anl_summa" readonly="1" class="fw-bold"/>
+                </group>
+                <group string="Anläggningstillgångar – föreg.">
+                  <field name="bp_anl_summa"/>
+                </group>
+                <group string="Omsättningstillgångar – innevar.">
+                  <field name="bt_varulager"/>
+                  <field name="bt_kundford"/>
+                  <field name="bt_ovr_ford"/>
+                  <field name="bt_kassa"/>
+                  <field name="bt_oms_summa" readonly="1" class="fw-bold"/>
+                  <field name="bt_summa" readonly="1" class="fw-bold"/>
+                </group>
+                <group string="Omsättningstillgångar – föreg.">
+                  <field name="bp_varulager"/>
+                  <field name="bp_kundford"/>
+                  <field name="bp_ovr_ford"/>
+                  <field name="bp_kassa"/>
+                  <field name="bp_summa" readonly="1" class="fw-bold"/>
+                </group>
+              </group>
+              <group string="EGET KAPITAL OCH SKULDER">
+                <group string="Innevarande">
+                  <field name="be_aktiekap"/>
+                  <field name="be_reservfond"/>
+                  <field name="be_balanserat"/>
+                  <field name="be_ek_summa" readonly="1" class="fw-bold"/>
+                  <field name="be_obesk"/>
+                  <field name="be_avsatt"/>
+                  <field name="be_lang"/>
+                  <field name="be_lev"/>
+                  <field name="be_skatteskuld"/>
+                  <field name="be_ovr_kort"/>
+                  <field name="be_kort_summa" readonly="1" class="fw-bold"/>
+                  <field name="be_summa" readonly="1" class="fw-bold"/>
+                </group>
+                <group string="Föregående">
+                  <field name="bp_aktiekap"/>
+                  <field name="bp_balanserat"/>
+                  <field name="bp_ek_summa" readonly="1" class="fw-bold"/>
+                  <field name="bp_lang"/>
+                  <field name="bp_lev"/>
+                  <field name="bp_ovr_kort"/>
+                  <field name="bp_ek_skuld_summa" readonly="1" class="fw-bold"/>
+                </group>
+              </group>
+            </page>
+
+            <page string="📝 Noter">
+              <group>
+                <field name="not_principer"/>
+                <field name="not_revisor"/>
+                <field name="not_personal"/>
+                <field name="not_avskrivningar"/>
+                <field name="not_anlaggningstillgangar"/>
+                <field name="not_aktiekapital"/>
+                <field name="not_obeskattade"/>
+                <field name="not_dotterbolag"/>
+                <field name="not_sakerheter"/>
+                <field name="not_handelser_ef"/>
+                <field name="not_nyckeltal"/>
+              </group>
+            </page>
+
+            <page string="📜 Fastställelseintyg">
+              <group col="2">
+                <field name="fast_ort"/>
+                <field name="fast_datum"/>
+                <field name="fast_stamma_datum"/>
+                <field name="fast_styrelseledamot_id"/>
+              </group>
+            </page>
+
+            <page string="✍️ Underskrifter">
+              <group col="2">
+                <field name="sign_ort"/>
+                <field name="sign_datum"/>
+                <field name="sign_vd"/>
+                <field name="sign_revisor"/>
+                <field name="sign_byra"/>
+              </group>
+              <field name="sign_styrelse_ids">
+                <list editable="bottom">
+                  <field name="sequence" widget="handle"/>
+                  <field name="name"/>
+                  <field name="befattning"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LISTVY
+       ═══════════════════════════════════════════════════════════════ -->
+  <record id="view_k2_arsredovisning_list" model="ir.ui.view">
+    <field name="name">k2.arsredovisning.list</field>
+    <field name="model">k2.arsredovisning</field>
+    <field name="arch" type="xml">
+      <list string="K2-årsredovisningar">
+        <field name="name"/>
+        <field name="company_id"/>
+        <field name="date_from"/>
+        <field name="date_to"/>
+        <field name="rr_netto" string="Nettoomsättning"/>
+        <field name="rr_arets_resultat" string="Årets resultat"/>
+        <field name="state" widget="badge"
+               decoration-info="state == 'draft'"
+               decoration-warning="state == 'klar'"
+               decoration-success="state == 'fastställd'"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_k2_arsredovisning" model="ir.actions.act_window">
+    <field name="name">K2-årsredovisningar</field>
+    <field name="res_model">k2.arsredovisning</field>
+    <field name="view_mode">list,form</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Skapa din första K2-årsredovisning</p>
+    </field>
+  </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <menuitem id="menu_k2_arsredovisning_root"
+            name="Årsredovisning K2"
+            parent="account.menu_finance_reports"
+            sequence="99"/>
+
+  <menuitem id="menu_k2_arsredovisning"
+            name="Årsredovisningar"
+            parent="menu_k2_arsredovisning_root"
+            action="action_k2_arsredovisning"
+            sequence="10"/>
+
+</odoo>
